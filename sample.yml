@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: true 
+  gather_facts: true
+  remote_user: ec2-user
+  become: true
+  become_method: sudo
+  tasks:
+    - name: installing httpd
+      yum: 
+       name: httpd
+       state: present
+    - name: server start
+      service:
+       name: httpd
+       state: started
+    - name: create a file
+      file:
+       dest: /var/www/html/index.html
+    - name: place a content in to that index file
+       copy:
+        content: "<h1> JENKINS PIPELINE<h1>"
+        dest: /var/www/html/index.html
+       
